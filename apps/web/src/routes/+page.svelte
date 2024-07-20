@@ -1,10 +1,18 @@
 <script lang="ts">
 	import { ndk } from '$lib/ndk';
 	import type { NDKEventStore } from '@nostr-dev-kit/ndk-svelte';
-	import { NDKEvent, type Hexpubkey, type NDKSubscription, type NostrEvent, NDKRelay, NDKRelaySet, type NDKFilter } from '@nostr-dev-kit/ndk';
+	import {
+		NDKEvent,
+		type Hexpubkey,
+		type NDKSubscription,
+		type NostrEvent,
+		NDKRelay,
+		NDKRelaySet,
+		type NDKFilter
+	} from '@nostr-dev-kit/ndk';
 	import { onDestroy, onMount } from 'svelte';
 	import { minimumScore, wot, wotFilter } from '@/stores/wot';
-	import { Switch } from "$lib/components/ui/switch";
+	import { Switch } from '$lib/components/ui/switch';
 	import { networkFollows } from '@/stores/session';
 	import EntriesList from '@/components/EntriesList.svelte';
 	import Input from '@/components/ui/input/input.svelte';
@@ -15,7 +23,7 @@
 	import CategoryList from '@/components/CategoryList.svelte';
 
 	let entries: NDKEventStore<NDKEvent> | undefined;
-	
+
 	let entriesVisible = 0;
 	let entriesNotVisible = 0;
 
@@ -36,17 +44,15 @@
 
 		if (query) {
 			const filters: NDKFilter[] = [{ kinds: [30818 as number], search: query }];
-			filters.push({ kinds: [30818 as number], "#d": [query] });
-			const relaySet = NDKRelaySet.fromRelayUrls(["wss://relay.wikifreedia.xyz"], $ndk);
+			filters.push({ kinds: [30818 as number], '#d': [query] });
+			const relaySet = NDKRelaySet.fromRelayUrls(['wss://relay.wikifreedia.xyz'], $ndk);
 			entries = $ndk.storeSubscribe(filters, { subId: 'entries', relaySet });
 		} else if (category) {
-			const filters: NDKFilter[] = [{ kinds: [30818 as number], "#c": [category] }];
+			const filters: NDKFilter[] = [{ kinds: [30818 as number], '#c': [category] }];
 			entries = $ndk.storeSubscribe(filters, { subId: 'entries' });
 		} else {
 			entries = $ndk.storeSubscribe([{ kinds: [30818 as number] }], { subId: 'entries' });
 		}
-
-		
 	}
 
 	onMount(() => {
@@ -57,12 +63,12 @@
 
 		if (query) {
 			filters[0].search = query;
-			filters.push({ kinds: [30818 as number], "#d": [query] });
+			filters.push({ kinds: [30818 as number], '#d': [query] });
 		}
 
 		entries = $ndk.storeSubscribe(filters, { subId: 'entries' });
 		mounted = true;
-	})
+	});
 
 	function keyup(event: KeyboardEvent) {
 		if (event.key === 'Enter') search();
@@ -82,11 +88,7 @@
 		placeholder="Search"
 		class="text-lg md:text-2xl sm:!p-8 grow"
 	/>
-	<Button
-		class="md:!p-8"
-		variant="outline"
-		on:click={search}
-	>Go</Button>
+	<Button class="md:!p-8" variant="outline" on:click={search}>Go</Button>
 </div>
 
 {#if category}

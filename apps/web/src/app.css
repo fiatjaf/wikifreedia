@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -66,7 +64,7 @@
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
 
-    --ring: hsl(212.7,26.8%,83.9);
+    --ring: hsl(212.7, 26.8%, 83.9);
   }
 
   body {
@@ -99,7 +97,6 @@
   }
 
   .prose p {
-
   }
 
   .prose a[href] {
@@ -127,7 +124,7 @@
   }
 
   .article .name {
-      @apply text-orange-600 font-medium underline;
+    @apply text-orange-600 font-medium underline;
   }
 
   blockquote {
